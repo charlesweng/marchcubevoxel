@@ -9,7 +9,7 @@ import SwiftUI
 import Foundation
 import ModelIO
 import SceneKit
-
+    
 let DIVISIONS = 2
 
 struct SceneView: UIViewRepresentable {
@@ -33,21 +33,25 @@ struct SceneView: UIViewRepresentable {
         light.type = .omni
         light.color = UIColor.white
         let lightNode = SCNNode()
-        lightNode.position = SCNVector3(x: 0, y: 2, z: 2)  // Position the light above the scene
+        lightNode.position = SCNVector3(x: 0, y: 2, z: 50)  // Position the light above the scene
+        scene.rootNode.addChildNode(lightNode)
         scene.rootNode.addChildNode(scnode)
 
         // Create a camera and add it to the scene
         let camera = SCNCamera()
         let cameraNode = SCNNode()
-        cameraNode.position = SCNVector3(x: 0, y: 5, z: 15) // Adjust position as needed
-        cameraNode.look(at: SCNVector3(0, 0, 0)) // Look at the origin
-//        scene.rootNode.addChildNode(cameraNode)
+        cameraNode.camera = camera
+        cameraNode.position = SCNVector3(x: 0, y: 2, z: 0.8) // Adjust position as needed
+        cameraNode.look(at: SCNVector3(0, 0, 0))
+//        cameraNode.camera?.fieldOfView = 100
+        // Look at the origin
+        scene.rootNode.addChildNode(cameraNode)
 
         // Example of creating a voxel array (replace with your actual voxel array)
         // let voxelArray: MDLVoxelArray = ... // Your voxel array initialization here
 
         // Create a simple voxel cube for demonstration
-        let voxelGeometry = SCNBox(width: 0.5, height: 0.5, length: 0.5, chamferRadius: 0)
+        let voxelGeometry = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
         let voxelMaterial = SCNMaterial()
         voxelMaterial.diffuse.contents = UIColor.red
         voxelGeometry.materials = [voxelMaterial]
